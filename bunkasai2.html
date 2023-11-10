@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>公衆電話</title>
+    <style>
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000; /* 黒色に設定 */
+    color: #fff; /* 文字色を白色に設定 */
+}
+        .phone-image {
+            position: absolute;
+            width: 800px; /* 例: 幅を調整 */
+            height: 800px; /* アスペクト比を維持して高さを自動調整 */
+            top: -400px; /* 例: y座標を調整 */
+            left: 50px; /* 例: x座標を調整 */
+        }
+
+        .phone-container {
+            position: relative;
+            max-width: 100%;
+        }
+
+        .number-overlay {
+            position: absolute;
+        }
+
+        /* 各数字ボタンのスタイルを指定 */
+        .number1 {
+            cursor: pointer;
+            width: 88px;
+            position: absolute;
+            top: -127px; /* 例: y座標を調整 */
+            left: 365px; /* 例: x座標を調整 */
+            border-radius: 10%; /* 角にぼかしを追加 */
+        }
+
+        .number2 {
+            cursor: pointer;
+            width: 88px; /* 例: サイズを調整 */
+            position: absolute;
+            top: -42px; /* 例: y座標を調整 */
+            left: 365px; /* 例: x座標を調整 */
+            border-radius: 10%; /* 角にぼかしを追加 */
+        }
+        .number3 {
+            cursor: pointer;
+            width: 88px;
+            position: absolute;
+            top: 43px; /* 例: y座標を調整 */
+            left: 365px; /* 例: x座標を調整 */
+            border-radius: 10%; /* 角にぼかしを追加 */
+        }
+        .number4 {
+            cursor: pointer;
+            width: 88px;
+            position: absolute;
+            top: 128px; /* 例: y座標を調整 */
+            left: 365px; /* 例: x座標を調整 */
+            border-radius: 10%; /* 角にぼかしを追加 */
+        }
+        .number5 {
+            cursor: pointer;
+            width: 88px;
+            position: absolute;
+            top: 213px; /* 例: y座標を調整 */
+            left: 365px; /* 例: x座標を調整 */
+            border-radius: 10%; /* 角にぼかしを追加 */
+        }
+        .number6 {
+            cursor: pointer;
+            width: 88px;
+            position: absolute;
+            top: -127px; /* 例: y座標を調整 */
+            left: 458px; /* 例: x座標を調整 */
+            border-radius: 10%; /* 角にぼかしを追加 */
+        }
+        .number7 {
+            cursor: pointer;
+            width: 88px;
+            position: absolute;
+            top: -42px; /* 例: y座標を調整 */
+            left: 458px; /* 例: x座標を調整 */
+            border-radius: 10%; /* 角にぼかしを追加 */
+        }
+        .number8 {
+            cursor: pointer;
+            width: 88px;
+            position: absolute;
+            top: 43px; /* 例: y座標を調整 */
+            left: 458px; /* 例: x座標を調整 */
+            border-radius: 10%; /* 角にぼかしを追加 */
+        }
+        .number9 {
+            cursor: pointer;
+            width: 88px;
+            position: absolute;
+            top: 128px; /* 例: y座標を調整 */
+            left: 458px; /* 例: x座標を調整 */
+            border-radius: 10%; /* 角にぼかしを追加 */
+        }
+
+        .call-button {
+            cursor: pointer;
+            width: 88px;
+            position: absolute;
+            top:  213px; /* 例: y座標を調整 */
+            left: 458px; /* 例: x座標を調整 */
+            border-radius: 10%; /* 角にぼかしを追加 */
+          }  
+
+        .event-button{
+            cursor: pointer;
+            width: 300px;
+        }
+        /* 数字が表示される場所のスタイルを指定 */
+        .display-container {
+    position: absolute;
+    top: 0px;
+    left: 35px;
+    font-size: 15px;
+    white-space: pre;
+    border-right: 2px solid transparent; /* カーソル線を透明にする */
+        }
+        .message-container {
+    position: absolute;
+    top: 25px;
+    left: 35px;
+    font-size: 20px;
+    white-space: pre;
+        }
+
+        .display-container::after {
+    content: '|'; /* カーソル線を表示 */
+    animation: blink 0.7s; /* 点滅アニメーションを0.7秒間適用 */
+}
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+.clicked {
+    animation: blink 0.5s ; /* 0.5秒ごとに点滅するアニメーションを無限に繰り返す */
+}
+
+.event-button {
+    border: 0 solid;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+    outline: 1px solid;
+    outline-color: rgba(255, 255, 255, 0.5);
+    outline-offset: 0px;
+    text-shadow: none;
+    -webkit-transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.event-button:hover {
+    border: 2px solid;
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 255, 255, 0.2);
+    outline-color: rgba(255, 255, 255, 0);
+    outline-offset: 15px;
+    text-shadow: 1px 1px 2px #427388;
+}
+
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <img src="公衆電話イメージ.png" class="phone-image" alt="公衆電話">
+        <div class="number-overlay">
+            <img src="数字1.png" class="number number1" data-sound="sound1" alt="1">
+            <img src="数字2.png" class="number number2" data-sound="sound1" alt="2">
+            <img src="数字3.png" class="number number3" data-sound="sound1" alt="3">
+            <img src="数字4.png" class="number number4" data-sound="sound1" alt="4">
+            <img src="数字5.png" class="number number5" data-sound="sound1" alt="5">
+            <img src="数字6.png" class="number number6" data-sound="sound1" alt="6">
+            <img src="数字7.png" class="number number7" data-sound="sound1" alt="7">
+            <img src="数字8.png" class="number number8" data-sound="sound1" alt="8">
+            <img src="数字9.png" class="number number9" data-sound="sound1" alt="9">
+            <img src="電話ボタン.png" class="call-button" data-sound="sound1" alt="電話">
+        </div>
+    </div>
+
+    <div class="message-container" id="message">
+    <div class="display-container" id="display">0</div>
+    <audio id="sound1" src="クリック音.mp3"></audio>
+    <audio id="sound2" src="通話終了の音.mp3"></audio>
+    <audio id="sound3" src="電話の呼び出し.mp3"></audio>
+
+
+    <button id="ClearButton" class="event-button" style="position: absolute; top: 720px; left: 1000px;">   </button>
+    <button id="ZamaButton" class="event-button" style="position: absolute; top: 180px; left: 80px; display: none;">ポストに投函した</button>
+    <button id="TrueButton" class="event-button" style="position: absolute; top: 70px; left: 80px; display: none;">この事件の黒幕はKだ。</button>
+    <button id="TrueButton3" class="event-button" style="position: absolute; top: 140px; left: 80px; display: none;">治験者リストにKの兄がいない。</button>
+    <button id="TrueButton4" class="event-button" style="position: absolute; top: 250px; left: 80px; display: none;">Kは病院の構造を把握しすぎている。</button>
+    <button id="TrueButton5" class="event-button" style="position: absolute; top: 330px; left: 80px; display: none;">そもそもなぜ許可書を知っているのか。</button>
+
+
+<script>
+    const ZamaPart1 = "\n＜電話が、繋がった。＞\....\nK：無事、許可書が見つかったんですね！\n私：はい！見つかりました！\nK：では、まとめて病院前のポストに投函してください！";
+    const ZamaPart2 = "\n\n\n私：投函しました！\nK：ありがとうございます\nそれでは、さようなら";
+    const ZamaPart3 = "\n\n＜電話が切れる。＞\n\n\n\n\n＜あなたは... 大きな間違いを犯し、「真相」にはたどり着けませんでした。＞";
+    const TruePart1 = "\n＜電話が、繋がった。＞\n上司：お、君か。事件について何かわかったのか？";
+    const TruePart2 = "\n\n私：黒幕は院長ではなく、Kかもしれません。\n上司：Kが....黒幕だと.....？何故そう思ったんだ？";
+    const TruePart4 = "\n\n私：例えば...。\n　　病院に遺された治験者リストにKの兄と思われる人物は一人もいませんでした。\n　　何かがおかしい。そう思いました。\n上司：確かに……だが…";
+    const TruePart5 = "\n\n私：私もその時は半信半疑でした。でも、Kは病院をあまりにも熟知しています。\n　　院長室の場所など、病院の構造を完全に把握しているんです。\n上司：言われてみれば...そうだな...";
+    const TruePart6 = "\n\n私：そして、Kは異様に許可書を欲しがっていた。\n　　そもそも、なぜその存在を知っているのか？\n　　...よく考えてみてください。\n上司：まさか....?\n\n私： ....Kの全てが嘘だった。\n  Kの目的は、初めからこの許可書を入手することだったのです。\n\n　　KはAトロピンαを再び世に放とうとしているのでしょう。\n\n上司：..........とりあえず、私から警察に連絡する！一旦切るぞ！";
+    const TruePart7 = "\n＜電話が切れる。＞";
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const numbers = document.querySelectorAll(".number");
+        const callButton = document.querySelector(".call-button");
+        const display = document.getElementById("display");
+
+        // 画面に表示する文字列を保持する変数
+        let displayedNumber = "";
+        let isMessageDisplayed = false; // 新しいメッセージが表示されたかどうかを判定
+
+        // ボタンをクリックしたときの処理
+        numbers.forEach((number) => {
+            number.addEventListener("click", () => {
+                // クリックされたボタンの音声ファイルを取得
+                const soundId = number.getAttribute("data-sound");
+                const sound = document.getElementById(soundId);
+
+                // 効果音を再生
+                if (sound) {
+                    sound.currentTime = 0;
+                    sound.play();
+                }
+
+                // クリックされたボタンが数字ボタンの場合、文字列を更新
+                if (number.classList.contains("number")) {
+                    const clickedNumber = number.getAttribute("alt");
+                    if (displayedNumber.length < 11) {
+                        displayedNumber += clickedNumber;
+                        display.textContent = displayedNumber;
+                        // 追加：クリックされたらアニメーションを適用
+                        number.classList.add("clicked");
+
+                        // 追加：0.5秒後にアニメーションを解除
+                        setTimeout(() => {
+                            number.classList.remove("clicked");
+                        }, 500);
+                    }
+                }
+            });
+        });
+
+// 「電話」ボタンがクリックされたときの処理
+callButton.addEventListener("click", () => {
+    // クリックされたらアニメーションを適用
+    callButton.classList.add("clicked");
+
+    // 0.2秒後にアニメーションを解除
+    setTimeout(() => {
+        callButton.classList.remove("clicked");
+    }, 200);
+
+    if (!isMessageDisplayed && displayedNumber === "1") {
+        const sound = document.getElementById("sound3");
+        if (sound) {
+            sound.currentTime = 0;
+            sound.play();
+        }
+
+        // メッセージを追加
+        isMessageDisplayed = true; // メッセージが表示されたことを判定
+        setTimeout(() => {
+            typeMessage(TruePart1, function () {
+                //メッセージの表示が完了したら「黒幕はK」ボタンを表示
+                TrueButton.style.display = "block";
+                resetZamaButtonClick(); // クリック状態をリセット
+            });
+        }, 3000); // 3秒間待機
+    }
+
+    if (!isMessageDisplayed && displayedNumber === "") {
+        // メッセージを追加
+        const sound = document.getElementById("sound3");
+        if (sound) {
+            sound.currentTime = 0;
+            sound.play();
+        }
+
+        // メッセージを追加
+        isMessageDisplayed = true; // メッセージが表示されたことを判定
+        setTimeout(() => {
+            typeMessage(ZamaPart1, function () {
+                // メッセージの表示が完了したら「投函」ボタンを表示
+                ZamaButton.style.display = "block";
+                resetZamaButtonClick(); // クリック状態をリセット
+            });
+        }, 3000); // 3秒間待機
+    }
+});
+
+// 「投函」ボタンがクリックされたときの処理
+ZamaButton.addEventListener("click", function handleClick() {
+    if (isMessageDisplayed && displayedNumber === "9487756312") {
+        if (!ZamaButton.clicked) { 
+            ZamaButton.clicked = true; 
+            ZamaButton.style.display = "none"; // ボタンを非表示にする
+            // メッセージの後半を表示
+            typeMessage(ZamaPart2, function () {
+                // typeMessageが終わったら効果音を再生
+                const sound = document.getElementById("sound2");
+                if (sound) {
+                    sound.currentTime = 0;
+                    sound.play();
+                }
+                isMessageDisplayed = false; // メッセージが表示されていないことを判定
+                setTimeout(() => {
+                    typeMessage(ZamaPart3);
+                }, 4000); // 4秒間待機
+            });
+        }
+    }
+});
+
+function resetZamaButtonClick() {
+    ZamaButton.clicked = false;
+}
+
+        // 「黒幕はK」ボタンがクリックされたときの処理
+        TrueButton.addEventListener("click", () => {
+            if (displayedNumber === "8775572345") {
+                // メッセージの後半を表示
+                typeMessage(TruePart2, function () {
+                TrueButton3.style.display = "block"; //「依頼動機」ボタンを表示
+                });
+                TrueButton.style.display = "none"; // ボタンを非表示にする
+            }
+        });
+        TrueButton3.addEventListener("click", () => {
+            if (displayedNumber === "8775572345") {
+                // メッセージの後半を表示
+                typeMessage(TruePart4, function () {
+                TrueButton4.style.display = "block"; //「依頼動機」ボタンを表示
+                });
+                TrueButton3.style.display = "none"; // ボタンを非表示にする
+            }
+        });
+        TrueButton4.addEventListener("click", () => {
+            if (displayedNumber === "8775572345") {
+                // メッセージの後半を表示
+                typeMessage(TruePart5, function () {
+                TrueButton5.style.display = "block"; //「依頼動機」ボタンを表示
+                });
+                TrueButton4.style.display = "none"; // ボタンを非表示にする
+            }
+        });
+        TrueButton5.addEventListener("click", () => {
+            if (displayedNumber === "8775572345") {
+                TrueButton5.style.display = "none"; // ボタンを非表示にする
+                // メッセージの後半を表示
+                typeMessage(TruePart6, function () {
+            // typeMessageが終わったら効果音を再生
+            const sound = document.getElementById("sound2");
+            if (sound) {
+                sound.currentTime = 0;
+                sound.play();
+            }
+            setTimeout(() => {
+            typeMessage(TruePart7)
+        }, 4000); // 4秒間待機
+        });
+    }
+});
+    // メッセージをタイピングする関数
+    function typeMessage(message, callback) {
+        let index = 0;
+        const speed = 110; // タイピングの速さ (ミリ秒)
+
+        function type() {
+            if (index < message.length) {
+                display.textContent += message.charAt(index);
+                index++;
+                typingTimer = setTimeout(type, speed);
+            } else {
+                // メッセージの表示が完了したらコールバック関数を実行
+                if (callback) {
+                    callback();
+                }
+            }
+        }
+        // タイピングを開始
+        type();
+    }
+ });
+</script>
+
+</body>
+</html>
